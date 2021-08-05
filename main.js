@@ -1,13 +1,13 @@
 
-function insere(){
-    const inptGet = document.querySelector('#inputText');
+ /*function insere(){
+   const inptGet = document.querySelector('#inputText');
     const btn = document.querySelector('.btn');
     let count_saida = 0
     let count = 0
 
     btn.addEventListener('click', function(e){
-        count++
         const entrada = inptGet.value;
+        count++
         const newElement = document.createElement('li');
         const items = document.querySelector('li');
         newElement.classList.add('lst')
@@ -36,4 +36,49 @@ function insere(){
     
 }
 onload = insere()
+*/
 
+const inptTarefa = document.querySelector("#inputText");
+const btnTarefa = document.querySelector('.btn');
+const tarefas = document.querySelector('.listItens');
+
+function criaLi(){
+    const li = document.createElement('li');
+    return li;
+}
+
+function makeBtn(li){
+    li.innerText += ' ';
+    const btn = document.createElement('button');
+    btn.innerText = 'Apagar';
+    btn.setAttribute('class', 'apagar');
+    btn.setAttribute('title', 'apagar esta tarefa');
+    li.appendChild(btn);
+}
+
+function criaTarefa(textInput){
+    const li = criaLi();
+    li.innerText = textInput;
+    tarefas.appendChild(li);
+    clearFocus();
+    makeBtn(li);
+
+}
+
+inptTarefa.addEventListener('keypress', function(e){
+    if(e.keyCode === 13){
+        if(!inptTarefa.value) return;
+        criaTarefa(inptTarefa.value)
+    }
+})
+
+function clearFocus(){
+    inptTarefa.value = "";
+    inptTarefa.focus();
+}
+
+
+btnTarefa.addEventListener('click', function(){
+    if(!inptTarefa.value) return;
+    criaTarefa(inptTarefa.value);
+})
