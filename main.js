@@ -62,13 +62,47 @@ function criaTarefa(textInput){
     tarefas.appendChild(li);
     clearFocus();
     makeBtn(li);
+    SalvarTarefa();
+};
 
+function SalvarTarefa(){
+    const arrayTarefas = tarefas.querySelectorAll('li');
+    let listArray = [];
+    for(let tarefa of arrayTarefas){
+        let text = tarefa.innerText
+        text = text.replace('Apagar',"").trim()
+        listArray.push(text)
+    };
+
+    const tarefaJson = JSON.stringify(listArray)
+    console.log(tarefaJson)
+    localStorage.setItem('tarefas', tarefaJson);
+
+};
+
+document.addEventListener('click', function(e){
+    const el = e.target
+    if(el.classList.contains('apagar')){
+        el.parentElement.remove()
+        SalvarTarefa();
+    };
+});
+
+
+
+function adicionarTarfefasSalvas(){
+    const tarefas = localStorage.getItem('tarefas');
+    const listadetarefas = JSON.parse(tarefas);
+
+    for(let tarefa of listadetarefas){
+        criaTarefa(tarefa)
+    }
 }
 
 inptTarefa.addEventListener('keypress', function(e){
     if(e.keyCode === 13){
         if(!inptTarefa.value) return;
-        criaTarefa(inptTarefa.value)
+        criaTarefa(inptTarefa.value);
     }
 })
 
@@ -82,3 +116,5 @@ btnTarefa.addEventListener('click', function(){
     if(!inptTarefa.value) return;
     criaTarefa(inptTarefa.value);
 })
+
+adicionarTarfefasSalvas();
